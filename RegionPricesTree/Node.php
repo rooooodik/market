@@ -11,6 +11,10 @@ class Node {
     private $value;
     private $parent;
 
+    /**
+     * @param null $value
+     * @param null $color
+     */
     public function __construct($value = null, $color = null)
     {
         $this->value = $value;
@@ -182,6 +186,11 @@ class Node {
         return (($this->isBlack()) ? "B" : "R");
     }
 
+    /**
+     * @param $current
+     * @param $recieved
+     * @return int
+     */
     public static function compare($current, $recieved)
     {
         if($current['S_from'] < $recieved['S_from'])
@@ -194,6 +203,7 @@ class Node {
     }
 
     /**
+     * Создержит ли данная нода значение
      * @param $value
      * @return bool
      */

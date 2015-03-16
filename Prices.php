@@ -1,6 +1,6 @@
 <?php
 
-require_once 'RegionPricesTree.php';
+require_once 'RegionPricesTree/RegionPricesTree.php';
 
 /**
  * Class Prices
@@ -13,6 +13,13 @@ class Prices {
     protected $regionPricesTrees = array();
     protected $regionPricesTreesData = array();
 
+    /**
+     * Ищет по указанному пути csv файл и заносит информацию в дерево
+     * Формат строк файла "S_from","S_to",cost,region
+     * @param $filepath
+     * @param Regions $regions
+     * @throws Exception
+     */
     function __construct($filepath, Regions $regions) {
         $this->regions = $regions;
         if (!empty($filepath) && file_exists($filepath) && pathinfo($filepath, PATHINFO_EXTENSION) === "csv") {
@@ -51,6 +58,11 @@ class Prices {
         unset($this->regionPricesTreesData);
     }
 
+    /**
+     * Готовит данные к занесению их в дерево
+     * @param $fields
+     * @throws Exception
+     */
     protected function prepareRegionPricesTreesData($fields) {
         $region = $this->regions->getRegion($fields['regionId']);
         if (empty($region)) {
@@ -70,12 +82,14 @@ class Prices {
     }
 
     /**
+     * Заливает данные в массив regionPricesTreesData так чтобы они не пересекались
      * @param $fields
      * @param $priority
      * @param $region
      */
     protected function pushToData($fields, $region, $priority = 0)
     {
+        //TODO: Переписать весь метод (вобще не тру)
         $this->projectionOnChild($fields, $region, $priority);
         if (!empty($this->regionPricesTreesData[$region['id']])) {
             $commit = 1;
@@ -167,6 +181,9 @@ class Prices {
         }
     }
 
+    /**
+     * Создает дерево RegionPricesTree на основании массива $regionPricesTreesData
+     */
     protected function createRegionPricesTrees() {
         foreach ($this->regionPricesTreesData as $key => $data) {
             $this->regionPricesTrees[$key] = new RegionPricesTree;
@@ -176,6 +193,12 @@ class Prices {
         }
     }
 
+    /**
+     * Вычисляет стоимость площади
+     * @param $regionId
+     * @param $S
+     * @return bool|string
+     */
     public function getPrice($regionId, $S) {
         if (!empty($this->regionPricesTrees[$regionId])){
             $node = $this->regionPricesTrees[$regionId]->findValue($S);

@@ -31,6 +31,11 @@ class RegionPricesTree {
         $this->isRemoved = false;
     }
 
+    /**
+     * Левый поворот дерева tree относительно узла node.
+     * @param RegionPricesTree $tree
+     * @param Node $node
+     */
     private static function leftRotate(RegionPricesTree $tree, Node $node) {
         $nodeParent = $node->getParent();
 		$nodeRight = $node->getRight();
@@ -48,6 +53,11 @@ class RegionPricesTree {
 		$nodeRight->setLeft($node);
     }
 
+    /**
+     * Правый поворот дерева tree относительно узла node.
+     * @param RegionPricesTree $tree
+     * @param Node $node
+     */
     private static function rightRotate(RegionPricesTree $tree, Node $node) {
         $nodeParent = $node->getParent();
         $nodeLeft = $node->getLeft();
@@ -65,6 +75,10 @@ class RegionPricesTree {
         $nodeLeft->setRight($node);
     }
 
+    /**
+     * Добавление значения
+     * @param $value
+     */
     public function add($value) {
         $node = $this->root;
         $temp = $this->nil;
@@ -91,6 +105,10 @@ class RegionPricesTree {
         $this->fixInsert($newNode);
     }
 
+    /**
+     * Исправление для сохранения свойств
+     * @param Node $node
+     */
     private function fixInsert(Node $node) {
         while( !$node->isParentFree() && $node->getParent()->isRed() ) {
             if($node->getParent() == $node->getGrandfather()->getLeft()) {
@@ -130,6 +148,11 @@ class RegionPricesTree {
         $this->root->makeBlack();
     }
 
+    /**
+     * Поиск в дереве
+     * @param $value
+     * @return null|Node
+     */
     public function findValue($value) {
         $node = $this->root;
         while($node != null && $node != $this->nil && !$node->contain($value)) {

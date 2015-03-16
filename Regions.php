@@ -2,6 +2,7 @@
 
 /**
  * Class Regions
+ * Хранит дерево регионов
  */
 class Regions {
 
@@ -11,6 +12,12 @@ class Regions {
     protected $regions = array();
     protected $indexByParent = array();
 
+    /**
+     * Ищет по указанному пути csv файл и заносит информацию в дерево
+     * Формат строк файла "Имя","Тип",id,parent_id
+     * @param $filepath
+     * @throws Exception
+     */
     public function __construct($filepath)
     {
         if (!empty($filepath) && file_exists($filepath) && pathinfo($filepath, PATHINFO_EXTENSION) === "csv") {
@@ -43,6 +50,11 @@ class Regions {
         }
     }
 
+    /**
+     * Возвращает регион по id
+     * @param $id
+     * @return null
+     */
     public function getRegion($id) {
         if (!empty($this->regions[$id])) {
             return $this->regions[$id];
@@ -51,6 +63,11 @@ class Regions {
         }
     }
 
+    /**
+     * Возвращает дочерние элементы
+     * @param $parentId
+     * @return null
+     */
     public function getChilds($parentId) {
         if (!empty($this->indexByParent[$parentId])) {
             return $this->indexByParent[$parentId];
