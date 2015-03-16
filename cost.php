@@ -3,8 +3,7 @@
 require_once "Prices.php";
 require_once "Regions.php";
 
-$regions = new Regions("tmp/city.csv");
-$prices = new Prices("tmp/cost.csv", $regions);
+$prices = new Prices("tmp/cost.csv", new Regions("tmp/city.csv"));
 
 $data = true;
 while ($data !== false && $data !== "exit") {

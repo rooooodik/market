@@ -101,8 +101,12 @@ class Prices {
                     continue;
                 } else {
                     if ($fields['S_from'] < $dataFields['S_from']) {
+                        $sub = 0;
+                        if ($priority > $dataFields['priority']) {
+                            $sub = -1;
+                        }
                         $this->regionPricesTreesData[$region['id']][$fields['S_from']] = $fields;
-                        $this->regionPricesTreesData[$region['id']][$fields['S_from']]['S_to'] = $dataFields['S_from'];
+                        $this->regionPricesTreesData[$region['id']][$fields['S_from']]['S_to'] = $dataFields['S_from'] - $sub;
                         $this->regionPricesTreesData[$region['id']][$fields['S_from']]['priority'] = $priority;
 
                         $fields['S_from'] = $dataFields['S_from'];
