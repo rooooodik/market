@@ -12,9 +12,9 @@ class Range implements ICanGoLeft, ICompare, IContain {
     protected $node;
 
     /**
-     * Range constructor.
+     * @param mixed $node
      */
-    public function __construct(Node $node)
+    public function setNode($node)
     {
         $this->node = $node;
     }
@@ -25,10 +25,15 @@ class Range implements ICanGoLeft, ICompare, IContain {
      */
     public function compare($recieved)
     {
-        if($this->node->getValue()->getFrom() < $recieved->getFrom())
-        {
+        if(
+            $this->node->getValue()->getFrom()
+            < $recieved->getFrom()
+        ) {
             return -1;
-        } else if($this->node->getFrom() > $recieved->getFrom()) {
+        } elseif (
+            $this->node->getValue()->getFrom()
+            > $recieved->getFrom()
+        ) {
             return 1;
         }
         return 0;

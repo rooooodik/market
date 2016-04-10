@@ -26,7 +26,13 @@ class Node implements ICanGoLeft, ICompare, IContain {
     {
         $this->value = $value;
         $this->color = $color;
-        $this->extantion = new $extantionName($this);
+        $this->extantion = new $extantionName();
+        $this->extantion->setNode($this);
+    }
+
+    function __clone()
+    {
+        $this->extantion->setNode($this);
     }
 
 
