@@ -2,7 +2,7 @@
 
 namespace market\model;
 
-use market\storage\nestedSet\IIndexed;
+use market\storage\mergeManager\IIndexed;
 
 /**
  * Class Region

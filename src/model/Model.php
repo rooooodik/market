@@ -19,9 +19,9 @@ abstract class Model {
     /**
      * Model constructor.
      *
-     * @param $fields
+     * @param array $fields
      */
-    public function __construct(\Iterator $fields)
+    public function __construct(array $fields = [])
     {
         foreach ($fields as $property => $value) {
             $this->$property = $value;

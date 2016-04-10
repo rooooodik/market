@@ -1,6 +1,6 @@
 <?php
 
-namespace market\storage\nestedSet;
+namespace market\storage\mergeManager;
 
 /**
  * Interface IIndexed

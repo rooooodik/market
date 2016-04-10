@@ -4,7 +4,7 @@ namespace market\storage;
 
 use market\dataProvider\IDataProvider;
 use market\model\Cost;
-use market\storage\mergeManager\RangeMergeManager;
+use market\storage\mergeManager\Range;
 use market\storage\validator\IValidator;
 
 /**
@@ -30,7 +30,7 @@ class Price {
     protected $storage;
 
     /**
-     * @var RangeMergeManager
+     * @var Range
      */
     protected $mergeManager;
 
@@ -41,7 +41,7 @@ class Price {
      * @param Regions $regions
      * @param $storageClass
      * @param IValidator $validator
-     * @param RangeMergeManager $mergeManager
+     * @param Range $mergeManager
      * @throws \Exception
      */
     function __construct(
@@ -49,9 +49,10 @@ class Price {
         Regions $regions,
         $storageClass,
         IValidator $validator,
-        RangeMergeManager $mergeManager
+        Range $mergeManager
     ) {
         $this->mergeManager = $mergeManager;
+        $this->mergeManager->setNestedSet($regions);
         $this->regions = $regions;
         foreach ($costs->getData() as $cost) {
             if ($validator->validate($cost)) {
@@ -60,7 +61,7 @@ class Price {
                 throw new \Exception($validator->getError());
             }
         }
-        $this->createStorage();
+//        $this->createStorage();
     }
 
     /**
@@ -79,7 +80,7 @@ class Price {
     }
 
     /**
-     * Создает дерево RegionPricesTree на основании массива $regionPricesTreesData
+     * Create storage by merge manager
      */
     protected function createStorage() {
         foreach ($this->mergeManager->getData() as $key => $data) {

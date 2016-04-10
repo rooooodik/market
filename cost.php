@@ -23,7 +23,7 @@ $prices = new \market\storage\Price(
     ),
     \market\storage\rbTree\RbTree::class,
     new \market\storage\validator\ObjectType(\market\model\Cost::class),
-    new \market\storage\mergeManager\RangeMergeManager()
+    new \market\storage\mergeManager\Range()
 );
 $a = 1;
 //$data = true;
