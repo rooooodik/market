@@ -53,6 +53,7 @@ class Price {
     ) {
         $this->mergeManager = $mergeManager;
         $this->mergeManager->setNestedSet($regions);
+        $this->storageClass = $storageClass;
         $this->regions = $regions;
         foreach ($costs->getData() as $cost) {
             if ($validator->validate($cost)) {
@@ -61,7 +62,7 @@ class Price {
                 throw new \Exception($validator->getError());
             }
         }
-//        $this->createStorage();
+        $this->createStorage();
     }
 
     /**
@@ -85,8 +86,8 @@ class Price {
     protected function createStorage() {
         foreach ($this->mergeManager->getData() as $key => $data) {
             $this->storage[$key] = new $this->storageClass();
-            foreach ($data as $fields) {
-                $this->storage[$key]->add($fields);
+            foreach ($data as $cost) {
+                $this->storage[$key]->add($cost);
             }
         }
     }
@@ -104,7 +105,7 @@ class Price {
             if ($node->getValue() == null) {
                 return "false";
             }
-            return $node->getValue()['Cost_Of_1_M2_RUR'] * $s;
+            return $node->getValue()->getValue() * $s;
         }
         return false;
     }

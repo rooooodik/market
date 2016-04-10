@@ -33,10 +33,10 @@ class RbTree {
 
     /**
      * Левый поворот дерева tree относительно узла node.
-     * @param RegionPricesTree $tree
+     * @param RbTree $tree
      * @param Node $node
      */
-    private static function leftRotate(RegionPricesTree $tree, Node $node) {
+    private static function leftRotate(RbTree $tree, Node $node) {
         $nodeParent = $node->getParent();
         $nodeRight = $node->getRight();
         if($nodeParent != $tree->nil) {
@@ -55,10 +55,10 @@ class RbTree {
 
     /**
      * Правый поворот дерева tree относительно узла node.
-     * @param RegionPricesTree $tree
+     * @param RbTree $tree
      * @param Node $node
      */
-    private static function rightRotate(RegionPricesTree $tree, Node $node) {
+    private static function rightRotate(RbTree $tree, Node $node) {
         $nodeParent = $node->getParent();
         $nodeLeft = $node->getLeft();
         if($nodeParent != $tree->nil) {
@@ -156,7 +156,7 @@ class RbTree {
     public function findValue($value) {
         $node = $this->root;
         while($node != null && $node != $this->nil && !$node->contain($value)) {
-            if( $node->getValue()['S_from'] > $value ) {
+            if( $node->getValue()->getFrom() > $value ) {
                 $node = $node->getLeft();
             } else {
                 $node = $node->getRight();

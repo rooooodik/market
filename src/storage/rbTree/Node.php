@@ -196,10 +196,10 @@ class Node {
      */
     public static function compare($current, $recieved)
     {
-        if($current['S_from'] < $recieved['S_from'])
+        if($current->getFrom() < $recieved->getFrom())
         {
             return -1;
-        } else if($current['S_from'] > $recieved['S_from']) {
+        } else if($current->getFrom() > $recieved->getFrom()) {
             return 1;
         }
         return 0;
@@ -211,7 +211,7 @@ class Node {
      * @return bool
      */
     public function contain ($value) {
-        if ($value <= $this->value['S_to']) {
+        if ($value <= $this->value->getTo()) {
             return true;
         } else {
             return false;

@@ -27,12 +27,22 @@ class Range {
      */
     protected $objectClass;
 
-    /**
-     * @return array
-     */
     public function getData()
     {
-        return $this->data;
+        foreach ($this->data as $index => $dataInIndex) {
+            yield $index => $this->getDataByIndex($index);
+        }
+    }
+
+    /**
+     * @param $index
+     * @return \Generator
+     */
+    public function getDataByIndex($index)
+    {
+        foreach($this->data[$index] as $node) {
+            yield $node['object'];
+        }
     }
 
     /**
@@ -52,7 +62,7 @@ class Range {
     public function add(IRange $object, IIndexed $nestedSetNode)
     {
         $this->objectClass = get_class($object);
-        $this->push($object, $nestedSetNode);
+        $this->push(clone $object, $nestedSetNode);
     }
 
     /**
@@ -65,11 +75,11 @@ class Range {
         IIndexed $nestedSetNode,
         $priority = 0
     ) {
-        $this->projectionOnChild($object, $nestedSetNode, $priority);
+        $this->projectionOnChild(clone $object, $nestedSetNode, $priority);
         if (!empty($this->data[$nestedSetNode->getId()])) {
-            $this->merge($object, $nestedSetNode, $priority);
+            $this->merge(clone $object, $nestedSetNode, $priority);
         } else {
-            $this->normalAdding($object, $nestedSetNode, $priority);
+            $this->normalAdding(clone $object, $nestedSetNode, $priority);
         }
     }
 
@@ -87,7 +97,7 @@ class Range {
         $children = $this->nestedSet->findChildren($nestedSetNode->getId());
         if (!empty($children)) {
             foreach ($children as $child) {
-                $this->push($object, $child, $priority);
+                $this->push(clone $object, $child, $priority);
             }
         }
     }

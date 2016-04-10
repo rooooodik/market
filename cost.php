@@ -25,17 +25,17 @@ $prices = new \market\storage\Price(
     new \market\storage\validator\ObjectType(\market\model\Cost::class),
     new \market\storage\mergeManager\Range()
 );
-$a = 1;
-//$data = true;
-//while ($data !== false && $data !== "exit") {
-//    $data = trim(fgets(STDIN));
-//    $data = explode(",", $data);
-//    if (count($data) == 2) {
-//        echo $prices->getPrice($data[0], $data[1]) . "\n";
-//    } else {
-//        if ($data[0] != "") {
-//            echo "Неверно указаны значения\n";
-//        }
-//        $data = false;
-//    }
-//}
+
+$data = true;
+while ($data !== false && $data !== "exit") {
+    $data = trim(fgets(STDIN));
+    $data = explode(",", $data);
+    if (count($data) == 2) {
+        echo $prices->getPrice($data[0], $data[1]) . "\n";
+    } else {
+        if ($data[0] != "") {
+            echo "Неверно указаны значения\n";
+        }
+        $data = false;
+    }
+}
