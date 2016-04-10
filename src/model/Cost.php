@@ -132,7 +132,7 @@ class Cost extends Model implements IRange, INestingIndex
 
     public function getValue()
     {
-        $this->getCostOfOneMRur();
+        return $this->getCostOfOneMRur();
     }
 
     public function getNestingIndex()
