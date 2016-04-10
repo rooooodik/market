@@ -2,6 +2,8 @@
 
 namespace market\storage\rbTree;
 
+use market\storage\rbTree\node\Node;
+
 class RbTree {
 
     /**
@@ -20,10 +22,13 @@ class RbTree {
 
     private $isRemoved;
 
-    function __construct()
+    private $node;
+
+    function __construct($node)
     {
-        $this->root = new Node();
-        $this->nil = new Node();
+        $this->node = $node;
+        $this->root = clone $this->node;
+        $this->nil = clone $this->node;
         $this->nil->setColor(Node::BLACK);
         $this->root->setParent($this->nil);
         $this->root->setRight($this->nil);
@@ -82,10 +87,12 @@ class RbTree {
     public function add($value) {
         $node = $this->root;
         $temp = $this->nil;
-        $newNode = new Node($value, Node::RED);
+        $newNode = clone $this->node;
+        $newNode->setValue($value);
+        $newNode->setColor(Node::RED);
         while($node != null && $node != $this->nil && !$node->isFree()) {
             $temp = $node;
-            if ( Node::compare($newNode->getValue(), $node->getValue()) < 0) {
+            if ( $newNode->compare($node->getValue()) < 0) {
                 $node = $node->getLeft();
             } else {
                 $node = $node->getRight();
@@ -95,7 +102,7 @@ class RbTree {
         if($temp == $this->nil) {
             $this->root->setValue($newNode->getValue());
         } else {
-            if( Node::compare($newNode->getValue(), $temp->getValue()) < 0)
+            if( $newNode->compare($temp->getValue()) < 0)
                 $temp->setLeft($newNode);
             else
                 $temp->setRight($newNode);
@@ -156,7 +163,7 @@ class RbTree {
     public function findValue($value) {
         $node = $this->root;
         while($node != null && $node != $this->nil && !$node->contain($value)) {
-            if( $node->getValue()->getFrom() > $value ) {
+            if( $node->canGoLeft($value) ) {
                 $node = $node->getLeft();
             } else {
                 $node = $node->getRight();

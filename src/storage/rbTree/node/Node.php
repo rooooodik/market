@@ -1,9 +1,8 @@
 <?php
 
-namespace market\storage\rbTree;
+namespace market\storage\rbTree\node;
 
-
-class Node {
+class Node implements ICanGoLeft, ICompare, IContain {
 
     const RED = "R";
     const BLACK = "B";
@@ -14,14 +13,20 @@ class Node {
     private $value;
     private $parent;
 
+    private $extantion;
+
     /**
+     * Node constructor.
+     *
      * @param null $value
      * @param null $color
+     * @param $extantionName
      */
-    public function __construct($value = null, $color = null)
+    public function __construct($value = null, $color = null, $extantionName)
     {
         $this->value = $value;
         $this->color = $color;
+        $this->extantion = new $extantionName($this);
     }
 
 
@@ -190,31 +195,28 @@ class Node {
     }
 
     /**
-     * @param $current
      * @param $recieved
-     * @return int
+     * @return mixed
      */
-    public static function compare($current, $recieved)
+    public function compare($recieved)
     {
-        if($current->getFrom() < $recieved->getFrom())
-        {
-            return -1;
-        } else if($current->getFrom() > $recieved->getFrom()) {
-            return 1;
-        }
-        return 0;
+        return $this->extantion->compare($recieved);
     }
 
     /**
-     * Создержит ли данная нода значение
+     * @param $value
+     * @return mixed
+     */
+    public function contain($value) {
+        return $this->extantion->contain($value);
+    }
+
+    /**
      * @param $value
      * @return bool
      */
-    public function contain ($value) {
-        if ($value <= $this->value->getTo()) {
-            return true;
-        } else {
-            return false;
-        }
+    public function canGoLeft($value)
+    {
+        return $this->extantion->canGoLeft($value);
     }
 }

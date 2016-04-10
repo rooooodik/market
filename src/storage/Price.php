@@ -5,6 +5,7 @@ namespace market\storage;
 use market\dataProvider\IDataProvider;
 use market\model\Cost;
 use market\storage\mergeManager\Range;
+use market\storage\rbTree\node\Node;
 use market\storage\validator\IValidator;
 
 /**
@@ -85,7 +86,13 @@ class Price {
      */
     protected function createStorage() {
         foreach ($this->mergeManager->getData() as $key => $data) {
-            $this->storage[$key] = new $this->storageClass();
+            $this->storage[$key] = new $this->storageClass(
+                new Node(
+                    null,
+                    null,
+                    \market\storage\rbTree\node\extantion\Range::class
+                )
+            );
             foreach ($data as $cost) {
                 $this->storage[$key]->add($cost);
             }
