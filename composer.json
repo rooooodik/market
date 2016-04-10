@@ -1,0 +1,13 @@
+{
+    "name": "rooodik/market",
+    "authors": [
+        {
+            "name": "rooodik",
+            "email": "rodion.konskii@gmail.com"
+        }
+    ],
+    "require": {},
+    "autoload": {
+        "psr-4": {"market\\": "src/"}
+    }
+}
