@@ -118,7 +118,8 @@ class Range {
                     if ($priority > $dataNode['priority']) {
                         $sub = -1;
                     }
-                    $this->data[$nestedSetNode->getId()][$object->getFrom()]['object'] = $object;
+                    $this->data[$nestedSetNode->getId()][$object->getFrom()]
+                        ['object'] = clone $object;
                     $this->data[$nestedSetNode->getId()][$object->getFrom()]
                         ['object']->setTo(
                             $dataNode['object']->getFrom() - $sub
@@ -215,7 +216,7 @@ class Range {
         $priority
     ) {
         $this->data[$nestedSetNode->getId()]
-            [$object->getFrom()]['object'] = $object;
+            [$object->getFrom()]['object'] = clone $object;
         $this->data[$nestedSetNode->getId()]
             [$object->getFrom()]['priority'] = $priority;
     }
