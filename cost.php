@@ -2,6 +2,14 @@
 
 require(__DIR__ . '/vendor/autoload.php');
 
+$nodeFabric = new \market\storage\Fabric(
+    \market\storage\rbTree\node\Node::class,
+    [
+        null,
+        null,
+        \market\storage\rbTree\node\extantion\Range::class
+    ]
+);
 $prices = new \market\storage\Price(
     new market\dataProvider\Fabric(
         new market\dataProvider\Filler(
@@ -21,7 +29,12 @@ $prices = new \market\storage\Price(
         new \market\storage\nestedSet\NestedSet(),
         new \market\storage\validator\ObjectType(\market\model\Region::class)
     ),
-    \market\storage\rbTree\RbTree::class,
+    new \market\storage\Fabric(
+        \market\storage\rbTree\RbTree::class,
+        [
+            $nodeFabric->getInstance()
+        ]
+    ),
     new \market\storage\validator\ObjectType(\market\model\Cost::class),
     new \market\storage\mergeManager\Range()
 );

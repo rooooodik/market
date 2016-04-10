@@ -35,7 +35,6 @@ class Node implements ICanGoLeft, ICompare, IContain {
         $this->extantion->setNode($this);
     }
 
-
     /**
      * @return mixed
      */

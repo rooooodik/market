@@ -21,9 +21,9 @@ class Price {
     protected $regions;
 
     /**
-     * @var string
+     * @var Fabric
      */
-    protected $storageClass;
+    protected $storageFabric;
 
     /**
      * @var array
@@ -40,7 +40,7 @@ class Price {
      *
      * @param IDataProvider $costs
      * @param Regions $regions
-     * @param $storageClass
+     * @param $storageFabric
      * @param IValidator $validator
      * @param Range $mergeManager
      * @throws \Exception
@@ -48,13 +48,13 @@ class Price {
     function __construct(
         IDataProvider $costs,
         Regions $regions,
-        $storageClass,
+        $storageFabric,
         IValidator $validator,
         Range $mergeManager
     ) {
         $this->mergeManager = $mergeManager;
         $this->mergeManager->setNestedSet($regions);
-        $this->storageClass = $storageClass;
+        $this->storageFabric = $storageFabric;
         $this->regions = $regions;
         foreach ($costs->getData() as $cost) {
             if ($validator->validate($cost)) {
@@ -86,13 +86,7 @@ class Price {
      */
     protected function createStorage() {
         foreach ($this->mergeManager->getData() as $key => $data) {
-            $this->storage[$key] = new $this->storageClass(
-                new Node(
-                    null,
-                    null,
-                    \market\storage\rbTree\node\extantion\Range::class
-                )
-            );
+            $this->storage[$key] = $this->storageFabric->getInstance();
             foreach ($data as $cost) {
                 $this->storage[$key]->add($cost);
             }
