@@ -2,6 +2,7 @@
 
 namespace market\storage\rbTree;
 
+use market\storage\Fabric;
 use market\storage\rbTree\node\Node;
 
 class RbTree {
@@ -22,13 +23,14 @@ class RbTree {
 
     private $isRemoved;
 
-    private $node;
+    private $nodeFabric;
 
-    function __construct($node)
+    function __construct(Fabric $nodeFabric)
     {
-        $this->node = $node;
-        $this->root = clone $this->node;
-        $this->nil = clone $this->node;
+        $this->nodeFabric = $nodeFabric;
+        $this->node = $this->nodeFabric->getInstance();
+        $this->root = $this->nodeFabric->getInstance();
+        $this->nil = $this->nodeFabric->getInstance();
         $this->nil->setColor(Node::BLACK);
         $this->root->setParent($this->nil);
         $this->root->setRight($this->nil);
@@ -87,7 +89,7 @@ class RbTree {
     public function add($value) {
         $node = $this->root;
         $temp = $this->nil;
-        $newNode = clone $this->node;
+        $newNode = $this->nodeFabric->getInstance();
         $newNode->setValue($value);
         $newNode->setColor(Node::RED);
         while($node != null && $node != $this->nil && !$node->isFree()) {

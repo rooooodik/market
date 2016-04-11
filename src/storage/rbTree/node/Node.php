@@ -2,6 +2,8 @@
 
 namespace market\storage\rbTree\node;
 
+use market\storage\Fabric;
+
 class Node implements ICanGoLeft, ICompare, IContain {
 
     const RED = "R";
@@ -20,18 +22,16 @@ class Node implements ICanGoLeft, ICompare, IContain {
      *
      * @param null $value
      * @param null $color
-     * @param $extantionName
+     * @param Fabric $extantionFabric
      */
-    public function __construct($value = null, $color = null, $extantionName)
-    {
+    public function __construct(
+        $value = null,
+        $color = null,
+        Fabric $extantionFabric
+    ) {
         $this->value = $value;
         $this->color = $color;
-        $this->extantion = new $extantionName();
-        $this->extantion->setNode($this);
-    }
-
-    function __clone()
-    {
+        $this->extantion = $extantionFabric->getInstance();
         $this->extantion->setNode($this);
     }
 
